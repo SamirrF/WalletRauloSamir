@@ -6,6 +6,7 @@ import Interfaz from "./pages/Interfaz.jsx";
 import card from "./assets/cardsinfondo.png";
 import { useState } from "react";
 import axios from "axios";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 
 function App() {
   return (
@@ -13,7 +14,14 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginForm />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/Interfaz" element={<Interfaz />} />
+        <Route
+          path="/Interfaz"
+          element={
+            <PrivateRoute>
+              <Interfaz />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

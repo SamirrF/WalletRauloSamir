@@ -13,6 +13,22 @@ function Interfaz() {
   const [transactions, setTransactions] = useState([]);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("todos");
+  
+  
+  // Función para dar formato a la fecha unix timestamp
+  const formatDate = (unixTimestamp) => {
+    const date = new Date(unixTimestamp * 1000);
+    return date.toLocaleString(); // Fecha y hora local legible
+  };
+
+  const [showModal, setShowModal] = useState(false);
+  const [toAlias, setToAlias] = useState("");
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const [token, setToken] = useState("");
+  const [transferError, setTransferError] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -72,20 +88,6 @@ function Interfaz() {
     fetchData();
   }, [alias, operationToken]);
 
-  // Función para dar formato a la fecha unix timestamp
-  const formatDate = (unixTimestamp) => {
-    const date = new Date(unixTimestamp * 1000);
-    return date.toLocaleString(); // Fecha y hora local legible
-  };
-
-  const [showModal, setShowModal] = useState(false);
-  const [toAlias, setToAlias] = useState("");
-  const [amount, setAmount] = useState("");
-  const [description, setDescription] = useState("");
-  const [token, setToken] = useState("");
-  const [transferError, setTransferError] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
   const fetchSuggestions = async (query) => {
     if (query.length < 3) {
