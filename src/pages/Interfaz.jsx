@@ -2,6 +2,9 @@ import styles from "./interfaz.module.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { jsPDF } from "jspdf";
+import "./styles3.css"
+
 
 function Interfaz() {
   const navigate = useNavigate();
@@ -13,8 +16,7 @@ function Interfaz() {
   const [transactions, setTransactions] = useState([]);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("todos");
-  
-  
+
   // Función para dar formato a la fecha unix timestamp
   const formatDate = (unixTimestamp) => {
     const date = new Date(unixTimestamp * 1000);
@@ -29,6 +31,60 @@ function Interfaz() {
   const [transferError, setTransferError] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+
+  //Funcion para PDF
+  const descargarComprobantePDF = (tx) => {
+    const doc = new jsPDF();
+
+    // Colores
+    const primaryColor = "#2C3E50"; // azul oscuro
+    const accentColor = "#3498DB"; // azul claro
+    const textColor = "#333";
+
+    // Estilo del encabezado
+    doc.setFillColor(primaryColor);
+    doc.rect(0, 0, 210, 30, "F"); // fondo header
+
+    doc.setTextColor(255, 255, 255); // blanco
+    doc.setFontSize(18);
+   
+    doc.text("COMPROBANTE DE TRANSFERENCIA", 105, 20, { align: "center" });
+
+    // Cuerpo
+    doc.setFontSize(12);
+    doc.setTextColor(textColor);
+
+    let y = 50;
+
+    const addField = (label, value) => {
+      doc.setTextColor(accentColor);
+      doc.text(label, 20, y);
+      doc.setTextColor(textColor);
+      doc.text(String(value), 70, y);
+      y += 10;
+    };
+
+    addField("Fecha", formatDate(tx.createdAt));
+    addField("De", `${tx.fromName} (${tx.fromUsername})`);
+    addField("Para", `${tx.toName} (${tx.toUsername})`);
+    addField("Monto", `$${tx.amount}`);
+    addField("Descripción", tx.description || "Sin descripción");
+    addField("ID Transacción", tx.id);
+
+    // Línea final
+    doc.setDrawColor(accentColor);
+    doc.line(20, y + 5, 190, y + 5);
+
+    // Footer
+    doc.setFontSize(10);
+    doc.setTextColor("#999");
+    doc.text("Gracias por utilizar nuestra Wallet", 105, 285, {
+      align: "center",
+    });
+
+    // Guardar PDF
+    doc.save(`comprobante_${tx.id}.pdf`);
+  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -88,7 +144,6 @@ function Interfaz() {
     fetchData();
   }, [alias, operationToken]);
 
-
   const fetchSuggestions = async (query) => {
     if (query.length < 3) {
       setSuggestions([]);
@@ -126,15 +181,32 @@ function Interfaz() {
       );
 
       if (response.data.success) {
-        alert("Transferencia realizada con éxito");
+        const newBalance = response.data.transfer.from.newBalance;
+
+        // Actualizar saldo y añadir nueva transacción
+        setSaldo(newBalance);
+        setTransactions((prev) => [
+          {
+            id: Date.now(), // temporal hasta que el backend lo devuelva con ID
+            createdAt: response.data.transfer.timestamp,
+            description: response.data.transfer.description,
+            fromName: response.data.transfer.from.name,
+            fromUsername: response.data.transfer.from.username,
+            toName: response.data.transfer.to.name,
+            toUsername: response.data.transfer.to.username,
+            amount: -response.data.transfer.amount,
+          },
+          ...prev,
+        ]);
+
+        // Resetear estado del modal
         setShowModal(false);
         setToAlias("");
         setAmount("");
         setDescription("");
         setToken("");
         setTransferError("");
-        // Volver a cargar datos actualizados
-        window.location.reload();
+        alert("Transferencia realizada con éxito");
       } else {
         setTransferError("Error: " + response.data.message);
       }
@@ -267,6 +339,9 @@ function Interfaz() {
                   >
                     {tx.amount < 0 ? "-" : "+"}${Math.abs(tx.amount)}
                   </p>
+                  <button className="btn-comprobante" onClick={() => descargarComprobantePDF(tx)}>
+                    Descargar comprobante PDF
+                  </button>
                 </li>
               ))}
             </ul>

@@ -1,0 +1,14 @@
+.btn-comprobante {
+    border: 1px solid #3498DB;
+    color: #3498DB;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background-color: rgb(0, 0, 0);
+}
+
+.btn-comprobante:hover {
+    background-color: #3498DB;
+    color: white;
+}
