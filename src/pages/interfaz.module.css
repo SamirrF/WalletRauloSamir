@@ -1,0 +1,287 @@
+.principal {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #363636;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.initialCircle {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.textInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.nombre {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.alias {
+  font-size: 12px;
+  color: #666;
+}
+
+.logoutButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logoutButton:hover {
+  background-color: #c82333;
+}
+
+.contenedor {
+  margin-top: 30px;
+}
+
+.movimientos {
+  margin-top: 20px;
+
+}
+
+.saldoCard {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 12px;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.saldoCard h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #00d1b2;
+}
+
+.saldoCard p {
+  font-size: 32px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.movimientos {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.movimientos h2 {
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.movimientoCard {
+  background-color: #2a2a2a;
+  padding: 16px;
+  border-radius: 10px;
+  color: #fff;
+  border-left: 6px solid #00d1b2;
+  transition: transform 0.2s ease;
+}
+
+.movimientoCard:hover {
+  transform: scale(1.01);
+}
+
+.movimientoCard strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #aaa;
+
+}
+
+.movimientoCard p {
+  margin: 4px 0;
+}
+
+.amount {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.amount.negative {
+  color: #ff4d4f;
+}
+
+.amount.positive {
+  color: #28a745;
+}
+
+/* ESTILOS PARA LA TRANSFERENCIA */
+.transferirBtn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.transferirBtn:hover {
+  background-color: #218838;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.modal button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal button:first-of-type {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.modal button:last-of-type {
+  background-color: #ccc;
+  border: none;
+}
+
+/* ESTILOS PARA EL AUTOCOMPLETADO DEL ALIAS EN EL MODAL */
+.suggestionsContainer {
+  position: relative;
+  width: 100%;
+}
+
+.suggestionsList {
+  position: absolute;
+  top: calc(100% + 4px); /* un poco más abajo del input */
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.2s ease-in-out;
+  transition: all 0.2s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.suggestionsList li {
+  padding: 12px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 15px;
+}
+
+.suggestionsList li:last-child {
+  border-bottom: none;
+}
+
+.suggestionsList li:hover {
+  background-color: #f0f8ff;
+}
+
+/* Scrollbar bonito en WebKit */
+.suggestionsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.suggestionsList::-webkit-scrollbar-thumb {
+  background-color: #c4c4c4;
+  border-radius: 3px;
+}
+
+.modal input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.modal input:focus {
+  border-color: #007bff;
+}
+.userName {
+  display: block;
+  font-weight: 600;
+  color: #333;
+}
+
+.userAlias {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-top: 2px;
+}
+/* estilos*/
