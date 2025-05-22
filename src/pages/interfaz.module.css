@@ -107,6 +107,7 @@
   color: #fff;
   border-left: 6px solid #00d1b2;
   transition: transform 0.2s ease;
+  margin-bottom: 10px;
 }
 
 .movimientoCard:hover {

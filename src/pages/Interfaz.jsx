@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { jsPDF } from "jspdf";
-import "./styles3.css"
-
+import "./styles3.css";
 
 function Interfaz() {
   const navigate = useNavigate();
@@ -47,7 +46,7 @@ function Interfaz() {
 
     doc.setTextColor(255, 255, 255); // blanco
     doc.setFontSize(18);
-   
+
     doc.text("COMPROBANTE DE TRANSFERENCIA", 105, 20, { align: "center" });
 
     // Cuerpo
@@ -166,35 +165,55 @@ function Interfaz() {
 
   const handleTransfer = async () => {
     try {
-      const response = await axios.post(
-        "https://raulocoin.onrender.com/api/transfer",
+      // Paso 1: Verificar TOTP
+      const verifyResponse = await axios.post(
+        "https://raulocoin.onrender.com/api/verify-totp",
         {
-          fromUsername: alias,
-          toUsername: toAlias,
-          amount: parseFloat(amount),
-          description,
-          operationToken: token,
+          username: alias,
+          totpToken: token,
         },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
 
-      if (response.data.success) {
-        const newBalance = response.data.transfer.from.newBalance;
+      if (!verifyResponse.data.success) {
+        setTransferError("Error: " + verifyResponse.data.message);
+        return;
+      }
+
+      const operationToken = verifyResponse.data.operationToken;
+
+      // Paso 2: Realizar transferencia
+      const transferResponse = await axios.post(
+        "https://raulocoin.onrender.com/api/transfer",
+        {
+          fromUsername: alias,
+          toUsername: toAlias,
+          amount: parseFloat(amount),
+          description,
+          operationToken, // token verificado
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (transferResponse.data.success) {
+        const newBalance = transferResponse.data.transfer.from.newBalance;
 
         // Actualizar saldo y añadir nueva transacción
         setSaldo(newBalance);
         setTransactions((prev) => [
           {
             id: Date.now(), // temporal hasta que el backend lo devuelva con ID
-            createdAt: response.data.transfer.timestamp,
-            description: response.data.transfer.description,
-            fromName: response.data.transfer.from.name,
-            fromUsername: response.data.transfer.from.username,
-            toName: response.data.transfer.to.name,
-            toUsername: response.data.transfer.to.username,
-            amount: -response.data.transfer.amount,
+            createdAt: transferResponse.data.transfer.timestamp,
+            description: transferResponse.data.transfer.description,
+            fromName: transferResponse.data.transfer.from.name,
+            fromUsername: transferResponse.data.transfer.from.username,
+            toName: transferResponse.data.transfer.to.name,
+            toUsername: transferResponse.data.transfer.to.username,
+            amount: -transferResponse.data.transfer.amount,
           },
           ...prev,
         ]);
@@ -208,7 +227,7 @@ function Interfaz() {
         setTransferError("");
         alert("Transferencia realizada con éxito");
       } else {
-        setTransferError("Error: " + response.data.message);
+        setTransferError("Error: " + transferResponse.data.message);
       }
     } catch (error) {
       setTransferError("Error al realizar la transferencia.");
@@ -339,7 +358,10 @@ function Interfaz() {
                   >
                     {tx.amount < 0 ? "-" : "+"}${Math.abs(tx.amount)}
                   </p>
-                  <button className="btn-comprobante" onClick={() => descargarComprobantePDF(tx)}>
+                  <button
+                    className="btn-comprobante"
+                    onClick={() => descargarComprobantePDF(tx)}
+                  >
                     Descargar comprobante PDF
                   </button>
                 </li>

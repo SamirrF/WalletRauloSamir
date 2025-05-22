@@ -76,3 +76,63 @@
     margin: 0 auto 20px;
     border-radius: 50%;
 }
+
+/*modal estilos*/
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* estilos para boton de verificacion*/
+.verifyButton {
+    background-color: #4caf50;
+    /* Verde */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+}
+
+.verifyButton:hover {
+    background-color: #43a047;
+    transform: scale(1.03);
+}
+
+.verifyButton:active {
+    background-color: #388e3c;
+    transform: scale(0.98);
+}
