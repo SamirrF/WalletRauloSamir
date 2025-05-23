@@ -16,7 +16,7 @@ html, body {
   align-items: center;
   height: 100vh;
   padding: 20px;
-  gap: 40px; /* Espacio entre imagen y login */
+  gap: 40px; 
   background: linear-gradient(180deg, #1a1a40, #fff);
   font-family: 'Khmer UI', sans-serif;
 }
@@ -77,7 +77,8 @@ html, body {
   background-color: #22C55E;
   color: white;
 }
-/* estilos para la imagen de usurio*/
+
+/* esto son estilos para la img arriba de los inputs*/
 .user-image {
   display: block;
   width: 120px;        

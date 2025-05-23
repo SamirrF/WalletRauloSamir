@@ -37,11 +37,12 @@
 .nombre {
   font-weight: bold;
   font-size: 16px;
+  color: white;
 }
 
 .alias {
   font-size: 12px;
-  color: #666;
+  color: #ffffff7a;
 }
 
 .logoutButton {
@@ -64,6 +65,9 @@
 
 .movimientos {
   margin-top: 20px;
+  display: flexbox;
+  align-items: center;
+  justify-content: center;
 
 }
 
@@ -73,8 +77,11 @@
   border-radius: 12px;
   color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  margin-bottom: 30px;
+  margin-bottom: 30px auto;
   text-align: center;
+  width: 600px;
+  max-width: 90%;
+  margin: 0 auto;
 }
 
 .saldoCard h1 {
@@ -93,6 +100,8 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  justify-content: center;
+  align-items: center;
 }
 
 .movimientos h2 {
@@ -108,6 +117,7 @@
   border-left: 6px solid #00d1b2;
   transition: transform 0.2s ease;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .movimientoCard:hover {
@@ -143,11 +153,18 @@
   background-color: #28a745;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 15px 25px;
   border-radius: 8px;
   cursor: pointer;
   margin-bottom: 20px;
   font-weight: bold;
+  font-size: 25px;
+}
+.contenedortransferirbtn{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 }
 
 .transferirBtn:hover {
@@ -211,7 +228,7 @@
 
 .suggestionsList {
   position: absolute;
-  top: calc(100% + 4px); /* un poco más abajo del input */
+  top: calc(100% + 4px); 
   left: 0;
   z-index: 1000;
   width: 100%;
@@ -251,7 +268,7 @@
   background-color: #f0f8ff;
 }
 
-/* Scrollbar bonito en WebKit */
+
 .suggestionsList::-webkit-scrollbar {
   width: 6px;
 }

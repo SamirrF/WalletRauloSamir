@@ -263,12 +263,14 @@ function Interfaz() {
           )}
         </div>
         {/* Botón para abrir el modal */}
+        <div className={styles.contenedortransferirbtn}>
         <button
           className={styles.transferirBtn}
           onClick={() => setShowModal(true)}
         >
           Transferir
         </button>
+        </div>
 
         {/* Modal de transferencia */}
         {showModal && (
@@ -337,7 +339,7 @@ function Interfaz() {
         <div className={styles.movimientos}>
           <h2>Historial de movimientos</h2>
           {transactions.length > 0 ? (
-            <ul style={{ listStyleType: "none", padding: 0 }}>
+            <ul style={{ listStyleType: "none", padding: 0, width: "100%",maxWidth:"500px"}}>
               {transactions.map((tx) => (
                 <li key={tx.id} className={styles.movimientoCard}>
                   <strong>{formatDate(tx.createdAt)}</strong>
